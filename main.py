@@ -2,6 +2,9 @@ import time, os
 try: from scapy.all import sniff, IP
 except: os.system("pip install scapy")
 
+THRESHOLD_PACKETS = 1000
+THRESHOLD_INTERVAL = 1
+
 def cls():
     try:
         system = os.name
@@ -27,9 +30,6 @@ print("""   ____
           '.,,/'.,,
              PacketCat                              
 """)
-
-THRESHOLD_PACKETS = 1000
-THRESHOLD_INTERVAL = 1
 
 packet_count = {}
 start_time = time.time()
