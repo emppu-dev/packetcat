@@ -1,9 +1,12 @@
-import time, os
+import time, os, json
 try: from scapy.all import sniff, IP
 except: os.system("pip install scapy")
 
-THRESHOLD_PACKETS = 1000
-THRESHOLD_INTERVAL = 1
+with open('config.json') as f:
+    config = json.load(f)
+
+THRESHOLD_PACKETS = int(config.get("THRESHOLD_PACKETS"))
+THRESHOLD_INTERVAL = int(config.get("THRESHOLD_INTERVAL"))
 
 def cls():
     try:
