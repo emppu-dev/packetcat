@@ -1,7 +1,22 @@
-from scapy.all import sniff, IP
 import time, os
+try: from scapy.all import sniff, IP
+except: os.system("pip install scapy")
 
-os.system("cls")
+def cls():
+    try:
+        system = os.name
+        if system == 'nt': os.system("cls")
+        elif system == 'posix': os.system("clear")
+    except: pass
+
+def title(title):
+    try:
+        system = os.name
+        if system == 'nt': os.system(f"title {title}")
+        elif system == 'posix': os.system(f"xtitle {title}")
+    except: pass
+
+cls()
 print("""   ____
   (.   \\
     \  |  
@@ -36,7 +51,7 @@ while True:
             print(f"[{src_ip.ljust(15)}] Packets: {count}")
         total_packets += count
     packets_per_second = total_packets / capture_duration
-    os.system(f"title P/S: {int(packets_per_second)}")
+    title(f"P/S: {int(packets_per_second)}")
     packet_count = {}
     start_time = time.time()
     total_packets = 0
