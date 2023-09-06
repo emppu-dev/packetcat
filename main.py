@@ -1,4 +1,4 @@
-import time, os, json
+import time, os, json, sys
 try: from scapy.all import sniff, IP
 except: os.system("pip install scapy")
 
@@ -19,7 +19,7 @@ def title(title):
     try:
         system = os.name
         if system == 'nt': os.system(f"title {title}")
-        elif system == 'posix': os.system(f"xtitle {title}")
+        elif system == 'posix': sys.stdout.write(f"\x1b]2;{title}\x07")
     except: pass
 
 cls()
