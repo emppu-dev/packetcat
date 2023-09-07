@@ -45,16 +45,20 @@ def process_packet(packet):
         packet_count[src_ip] = packet_count.get(src_ip, 0) + 1
 
 while True:
-    sniff(filter="ip", prn=lambda packet: process_packet(packet), store=False, timeout=THRESHOLD_INTERVAL)
-    capture_duration = time.time() - start_time
-    for src_ip, count in packet_count.items():
-        if count / capture_duration > THRESHOLD_PACKETS:
-            print(f"\x1b[31m[{src_ip.ljust(15)}] Packets: {count}\x1b[37m")
-        else:
-            print(f"[{src_ip.ljust(15)}] Packets: {count}")
-        total_packets += count
-    packets_per_second = total_packets / capture_duration
-    title(f"P/S: {int(packets_per_second)}")
-    packet_count = {}
-    start_time = time.time()
-    total_packets = 0
+    try:
+        sniff(filter="ip", prn=lambda packet: process_packet(packet), store=False, timeout=THRESHOLD_INTERVAL)
+        capture_duration = time.time() - start_time
+        for src_ip, count in packet_count.items():
+            if count / capture_duration > THRESHOLD_PACKETS:
+                print(f"\x1b[31m[{src_ip.ljust(15)}] Packets: {count}\x1b[37m")
+            else:
+                print(f"[{src_ip.ljust(15)}] Packets: {count}")
+            total_packets += count
+        packets_per_second = total_packets / capture_duration
+        title(f"P/S: {int(packets_per_second)}")
+        packet_count = {}
+        start_time = time.time()
+        total_packets = 0
+    except OSError:
+        print("No internet connection. Trying again in 5s...")
+        time.sleep(5)
